@@ -2,8 +2,15 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import { Container, Box, Input, Button, BoxImage, ListItem, ImageLogo } from "./styles";
 import { FcEmptyTrash, FcCheckmark } from "react-icons/fc";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-function App() {
+// Página Home
+function Home() {
+  return <h1>Bem-vindo à Lista de Tarefas!</h1>;
+}
+
+// Página de Tarefas
+function Tasks() {
   const [listAdd, setListAdd] = useState([]);
   const [task, setTask] = useState("");
 
@@ -23,6 +30,7 @@ function App() {
   function removerTarefa(id) {
     setListAdd(listAdd.filter((item) => item.id !== id));
   }
+
   function taskFinished(id) {
     const changeColor = listAdd.map(item =>
       item.id === id ? { ...item, finished: !item.finished } : item
@@ -30,6 +38,7 @@ function App() {
 
     setListAdd(changeColor)
   }
+
   function pressEnter(event) {
     if (event.key === "Enter") {
       clicado()
@@ -38,11 +47,9 @@ function App() {
 
   return (
     <Container>
-
       <Box>
         <BoxImage>
-          <ImageLogo src="./public/lista-de-controle.jpeg"
-            alt="image" />
+          <ImageLogo src="/lista-de-controle.jpeg" alt="image" />
         </BoxImage>
         <div>
           {/* Entrada de tarefas */}
@@ -55,8 +62,6 @@ function App() {
           />
           <Button onClick={clicado}>Adicionar</Button>
         </div>
-
-
 
         {/* Lista de tarefas */}
         <ul>
@@ -78,11 +83,20 @@ function App() {
                 <h4>Adicione Novas Tarefas!</h4>
               )
           }
-
-
         </ul>
       </Box>
     </Container>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter basename="/first-project-react">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tasks" element={<Tasks />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
